@@ -1,33 +1,46 @@
 
-fn append_region(mut word:String) {
-    word.push_str("RGV");
-    
+// Car
+
+// Struct responsible for data
+struct Car {
+    seats: u8,
+    model: String,
+}
+
+// Student
+
+// Struct for student
+struct Student {
+    name: String,
+    major: String,
+}
+
+impl Student {
+    fn new(n:String,m:String) -> Studnet {
+        Student {
+            name: n,
+            major: m,
+        }
+    }
+}
+
+// Methods are added by MPL statement
+
+impl Car {
+    fn new(s:u8,m:String) -> Car { // static method
+        Car {
+            seats: s,
+            model: m,
+        }
+    }
 }
 
 fn main() {
-    
-    let mut x = "UT".to_string();
-    append_region(&mut x);
-    println!("{}",x);
+    let my_car = Car::new(4,"Tacoma".to_string());
+
+    println!("Number of seats {}",my_car.seats);
+    println!("Number of seats {}",my_car.model);
+
+
 
 }
-
-// fn main() {
-//     let mut word = "UT".to_string();
-
-//     {
-//     let mutate_word = &mut word;
-//     mutate_word.push_str("RGV")
-//     }
-
-//     println!("{}", word);
-// }
-
-// fn main() {
-//     let mut word = "UT".to_string(); 
-//     fn update(word: &mut String) {
-//         word.push_str("RGV");
-//     }
-//     update(&mut word);
-//     println!("{word}")
-// }
