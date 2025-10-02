@@ -27,7 +27,7 @@ fn main() {
 
     println!("My name is {}", my_student.name);
     println!("My major is {}", my_student.get_major());
-    my_student.set_major("Computer Engineering".to_string());
+    my_student.set_major("Computer Science".to_string());
 
-    println!("My major is {}", my_student.get_major());
+    println!("My new major is {}", my_student.get_major());
 }
