@@ -1,41 +1,28 @@
-
-// Car
-
-// Struct responsible for data
-struct Car {
-    seats: u8,
-    model: String,
-}
-
-
-
-impl Car {
-    fn new(s:u8,m:String) -> Self { // static method
-        Self {
-            seats: s,
-            model: m,
-        }
-    }
-
-    fn get_model( &self ) -> &String {
-        return &self.model
-    }
-
-    fn set_model(&mut self, new_model: String){
-        self.model = new_model;
-
-    }
-}
+use std::arch::asm;
 
 fn main() {
-    let mut my_car = Car::new(4,"Tacoma".to_string());
+    let message = b"Hello, Arturo Montemayor!\n";
 
-    println!("Number of seats {}",my_car.seats);
-    println!("Number of seats {}",my_car.get_model());
-    my_car.set_model("Corolla".to_string());
+    unsafe {
+        // write syscall
+        asm!(
+            "mov rax, 1",  // syscall number for write
+            "mov rdi, 1",  // file descriptor: 1 is stdout
+            "syscall",
+            in("rsi") message.as_ptr(),
+            in("rdx") message.len(),
+            out("rax") _,
+            out("rcx") _,
+            out("r11") _,
+            clobber_abi("system")
+        );
 
-    println!("Number of seats {}",my_car.get_model());
-
-
-
+        // exit syscall
+        asm!(
+            "mov rax, 60", // syscall number for exit
+            "xor rdi, rdi", // status code 0
+            "syscall",
+            options(noreturn)
+        );
+    }
 }
