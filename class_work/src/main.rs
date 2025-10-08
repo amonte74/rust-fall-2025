@@ -1,28 +1,29 @@
-use std::arch::asm;
+use std::io::{self, Read, Write};
+
+struct Student {
+    name: String,
+    major: String,
+}
+
+fn reading_from_console() {
+    let mut buffer = String::new();
+
+    print!("What's your name? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    let name = buffer.trim().to_string();
+    buffer.clear();
+
+    print!("What's your Major? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    let major = buffer.trim().to_string();
+    buffer.clear();
+
+    let student = Student { name, major };
+    println!("Hi {}, your major is {}!", student.name, student.major);
+}
 
 fn main() {
-    let message = b"Hello, Arturo Montemayor!\n";
-
-    unsafe {
-        // write syscall
-        asm!(
-            "mov rax, 1",  // syscall number for write
-            "mov rdi, 1",  // file descriptor: 1 is stdout
-            "syscall",
-            in("rsi") message.as_ptr(),
-            in("rdx") message.len(),
-            out("rax") _,
-            out("rcx") _,
-            out("r11") _,
-            clobber_abi("system")
-        );
-
-        // exit syscall
-        asm!(
-            "mov rax, 60", // syscall number for exit
-            "xor rdi, rdi", // status code 0
-            "syscall",
-            options(noreturn)
-        );
-    }
+    reading_from_console();
 }
