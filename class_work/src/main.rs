@@ -28,9 +28,9 @@ impl Inventory {
 }
 
 fn main(){
-    let a = "An apple a day keeps the doctor away.".to_string();
-    let b = "A banana boosts energy in a peel.".to_string();
-    let t = "An tomato a day keeps the sunburn away.".to_string();
+    let a = "Why was the apple so sad? Because he lost his core values.".to_string();
+    let b = "Why do bananas never feel lonely? They all hang out in bunches.".to_string();
+    let t = "Why don’t tomatoes ever win arguments? They always end up stewing in their own juices.".to_string();
     let fruits = vec![Fruit::Banana(b),Fruit::Apple(a),Fruit::Tomato(t)];
     
     let grocery_store = Inventory {
