@@ -1,0 +1,6 @@
+[package]
+name = "struct_book_catalogue"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
