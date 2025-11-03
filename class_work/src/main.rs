@@ -1,45 +1,37 @@
-#[derive(Debug)]
-enum Fruit {
-    Apple(String),
-    Banana(String),
-    Tomato(String),
+use std::fs::File;
+
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
 }
+use std::io::Read;
+use std::io;
 
-struct Inventory {
-    fruit:Vec<Fruit>,
-}
 
-impl Inventory {
-    fn available_fruits(&self){
-        for f in &self.fruit{
-            println!("{:?} :",f);
-            Self::tell_me_joke(f);
-        }
-    }
 
-    fn tell_me_joke(fruit:&Fruit){
-        match fruit {
-            Fruit::Apple(msg) => println!("{}",msg),
-            Fruit::Banana(msg) => println!("{}",msg),
-            Fruit::Tomato(msg) => println!("{}",msg),
-
-        }
-    }
-}
-
-fn main(){
-    let a = "Why was the apple so sad? Because he lost his core values.".to_string();
-    let b = "Why do bananas never feel lonely? They all hang out in bunches.".to_string();
-    let t = "Why don’t tomatoes ever win arguments? They always end up stewing in their own juices.".to_string();
-    let fruits = vec![Fruit::Banana(b),Fruit::Apple(a),Fruit::Tomato(t)];
-    
-    let grocery_store = Inventory {
-        fruit:fruits,
+fn read_username_from_file() -> Result<String, io::Error> {
+    let f = File::open("username.txt");
+    let mut f = match f {
+        Ok(file) => file,
+        Err(e) => return Err(e),
     };
-
-    grocery_store.available_fruits();
+    let mut s = String::new();
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(e) => Err(e),
+    }
 }
 
+fn read_username_from_file_3ver() -> Result<String, io::Error> {
+    let mut s = String::new();
+    File::open("username.txt")?.read_to_string(&mut s)?;
+    Ok(s)
+}
+
+use std::io::ErrorKind;
+fn main() {
+    read_username_from_file();
+}
 
 
 
