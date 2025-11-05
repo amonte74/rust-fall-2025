@@ -1,39 +1,29 @@
-use std::fs::File;
+fn main(){
+    use serde::{Serialize, Deserialize};
 
-enum Result<T, E> {
-    Ok(T),
-    Err(E),
-}
-use std::io::Read;
-use std::io;
-
-
-
-fn read_username_from_file() -> Result<String, io::Error> {
-    let f = File::open("username.txt");
-    let mut f = match f {
-        Ok(file) => file,
-        Err(e) => return Err(e),
-    };
-    let mut s = String::new();
-    match f.read_to_string(&mut s) {
-        Ok(_) => Ok(s),
-        Err(e) => Err(e),
+    #[derive(Serialize,Deserialize)]
+    struct Person {
+        name: String,
+        age: u8,
     }
+
+
+    let person = Person {
+        name: "John Doe".to_string(),
+        age: 30,
+    };
+
+    let serialized = serde_json::to_string(&person).unwrap();// unwrap panicks
+
+    // let actual_string = match serialized {
+    //     Ok(s) => s,
+    //     Err(e) => "Houston we have a Problem".to_string(),
+    // };
+
+    println!("Serialized Person = {}", serialized);
+
+    let person:Person =serde_json::from_str::<Person>(serialized.as_str()).unwrap();
+
+    println!("Deserialized Person = {}, {}", person.name, person.age);
 }
-
-fn read_username_from_file_3ver() -> Result<String, io::Error> {
-    let mut s = String::new();
-    File::open("username.txt")?.read_to_string(&mut s)?;
-    Ok(s)
-}
-
-use std::io::ErrorKind;
-fn main() {
-    read_username_from_file();
-}
-
-
-
-
 
