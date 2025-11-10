@@ -1,28 +1,23 @@
-#[allow(dead_code)]
-fn generics_in_struct() {
-    #[derive(Debug)]
-    struct Point<T> {
-        x: T,
-        y: T,
+fn generics_method_definitions() {
+    struct File<T> {
+        name: String,
+        data: T,
     }
 
-    let integer = Point { x: 5, y: 10 };
-    let float = Point { x: 1.0, y: 4.0 };
-
-    println!("int Point: {:?} float Point: {:?}", integer, float);
-
-    #[derive(Debug)]
-    struct User<T, U> {
-        name: T,
-        y: U,
+    impl<T> File<T> {
+        fn new(name: &str, content: T) -> File<T> {
+            File { name: String::from(name), data: content }
+        }
     }
 
-    let user1 = User { name: 45i32, y: 35i32 };
-    let user2 = User { name: "James Bond".to_string(), y: "===> 007" };
+    let textfile = File::new("lets'go", vec!["K'Maro".to_string()]);
+    let imagefile = File::new("MonaLisa", vec![0, 123, 255]);
 
-    println!("User1: {:?} User2: {:?}", user1, user2);
+    println!("Textfile name {:?}. Textfile content {:?}", textfile.name, textfile.data);
+    println!("Imagefile name {:?}. Imagefile content {:?}", imagefile.name, imagefile.data);
 }
+
 fn main(){
-    generics_in_struct();
+    generics_method_definitions();
 }
 
