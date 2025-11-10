@@ -1,29 +1,28 @@
-fn main(){
-    use serde::{Serialize, Deserialize};
-
-    #[derive(Serialize,Deserialize)]
-    struct Person {
-        name: String,
-        age: u8,
+#[allow(dead_code)]
+fn generics_in_struct() {
+    #[derive(Debug)]
+    struct Point<T> {
+        x: T,
+        y: T,
     }
 
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
 
-    let person = Person {
-        name: "John Doe".to_string(),
-        age: 30,
-    };
+    println!("int Point: {:?} float Point: {:?}", integer, float);
 
-    let serialized = serde_json::to_string(&person).unwrap();// unwrap panicks
+    #[derive(Debug)]
+    struct User<T, U> {
+        name: T,
+        y: U,
+    }
 
-    // let actual_string = match serialized {
-    //     Ok(s) => s,
-    //     Err(e) => "Houston we have a Problem".to_string(),
-    // };
+    let user1 = User { name: 45i32, y: 35i32 };
+    let user2 = User { name: "James Bond".to_string(), y: "===> 007" };
 
-    println!("Serialized Person = {}", serialized);
-
-    let person:Person =serde_json::from_str::<Person>(serialized.as_str()).unwrap();
-
-    println!("Deserialized Person = {}, {}", person.name, person.age);
+    println!("User1: {:?} User2: {:?}", user1, user2);
+}
+fn main(){
+    generics_in_struct();
 }
 
